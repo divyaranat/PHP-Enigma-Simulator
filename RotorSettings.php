@@ -55,5 +55,31 @@
 				echo "Error: rotor one switch";
 				$positionOneTurnoverPoint = null;
 		}
+
+        switch ($rotorPositionTwo) {
+			case "I":
+				$positionTwoArray = $rotorOneArray;
+				$positionTwoTurnoverPoint = "Q";
+                break;
+			case "II":
+				$positionTwoArray = $rotorTwoArray;
+				$positionTwoTurnoverPoint = "E";
+                break;
+			case "III":
+				$positionTwoArray = $rotorThreeArray;
+				$positionTwoTurnoverPoint = "V";
+                break;
+			case "IV":
+				$positionTwoArray = $rotorFourArray;
+				$positionTwoTurnoverPoint = "J";
+                break;
+			case "V":
+				$positionTwoArray = $rotorFiveArray;
+				$positionTwoTurnoverPoint = "Z";
+                break;
+			default:
+				echo "Error: rotor one switch";
+				$positionTwoTurnoverPoint = null;
+		}
     }
 ?>
