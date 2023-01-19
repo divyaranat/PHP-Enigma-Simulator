@@ -1,5 +1,6 @@
 <?php
-messageInput();
+    require "RotorSettings.php";
+
     function rotorSelectionPrompt(){
         echo "Pick 3 rotors to use in simulator.";
         echo "Options: I II III IV V";
@@ -26,7 +27,7 @@ messageInput();
 
         echo "Rotor selection complete\n\n";
 
-       // Rotorsetting
+       rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree);
     }
 
     function messageInput() {
