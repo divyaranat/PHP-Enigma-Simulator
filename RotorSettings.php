@@ -1,5 +1,5 @@
 <?php
-    function rotorSelection() {
+    function rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree) {
         $rotorOneArray = array (
             array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),
             array ("E","K","M","F","L","G","D","Q","V","Z","N","T","O","W","Y","H","X","U","S","P","A","I","B","R","C","J")
@@ -29,5 +29,31 @@
             array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),
             array ("Y","R","U","H","Q","S","L","D","P","X","N","G","O","K","M","I","E","B","F","Z","C","W","V","J","A","T")
         );
+
+        switch ($rotorPositionOne) {
+			case "I":
+				$positionOneArray = $rotorOneArray;
+				$positionOneTurnoverPoint = "Q";
+                break;
+			case "II":
+				$positionOneArray = $rotorTwoArray;
+				$positionOneTurnoverPoint = "E";
+                break;
+			case "III":
+				$positionOneArray = $rotorThreeArray;
+				$positionOneTurnoverPoint = "V";
+                break;
+			case "IV":
+				$positionOneArray = $rotorFourArray;
+				$positionOneTurnoverPoint = "J";
+                break;
+			case "V":
+				$positionOneArray = $rotorFiveArray;
+				$positionOneTurnoverPoint = "Z";
+                break;
+			default:
+				echo "Error: rotor one switch";
+				$positionOneTurnoverPoint = null;
+		}
     }
 ?>
