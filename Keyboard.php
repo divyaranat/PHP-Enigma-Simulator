@@ -1,4 +1,5 @@
 <?php
+messageInput();
     function rotorSelectionPrompt(){
         echo "Pick 3 rotors to use in simulator.";
         echo "Options: I II III IV V";
@@ -23,7 +24,7 @@
             }
         } while ($continueLoop);
 
-        echo "Rotor selection complete\n";
+        echo "Rotor selection complete\n\n";
 
        // Rotorsetting
     }
