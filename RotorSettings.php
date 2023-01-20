@@ -1,4 +1,6 @@
 <?php
+    require "Rotor.php";
+
     function rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree) {
         $rotorOneArray = array (
             array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),
@@ -32,23 +34,23 @@
 
         switch ($rotorPositionOne) {
 			case "I":
-				$positionOneArray = $rotorOneArray;
+				$positionOneRotor = $rotorOneArray;
 				$positionOneTurnoverPoint = "Q";
                 break;
 			case "II":
-				$positionOneArray = $rotorTwoArray;
+				$positionOneRotor = $rotorTwoArray;
 				$positionOneTurnoverPoint = "E";
                 break;
 			case "III":
-				$positionOneArray = $rotorThreeArray;
+				$positionOneRotor = $rotorThreeArray;
 				$positionOneTurnoverPoint = "V";
                 break;
 			case "IV":
-				$positionOneArray = $rotorFourArray;
+				$positionOneRotor = $rotorFourArray;
 				$positionOneTurnoverPoint = "J";
                 break;
 			case "V":
-				$positionOneArray = $rotorFiveArray;
+				$positionOneRotor = $rotorFiveArray;
 				$positionOneTurnoverPoint = "Z";
                 break;
 			default:
@@ -58,23 +60,23 @@
 
         switch ($rotorPositionTwo) {
 			case "I":
-				$positionTwoArray = $rotorOneArray;
+				$positionTwoRotor = $rotorOneArray;
 				$positionTwoTurnoverPoint = "Q";
                 break;
 			case "II":
-				$positionTwoArray = $rotorTwoArray;
+				$positionTwoRotor = $rotorTwoArray;
 				$positionTwoTurnoverPoint = "E";
                 break;
 			case "III":
-				$positionTwoArray = $rotorThreeArray;
+				$positionTwoRotor = $rotorThreeArray;
 				$positionTwoTurnoverPoint = "V";
                 break;
 			case "IV":
-				$positionTwoArray = $rotorFourArray;
+				$positionTwoRotor = $rotorFourArray;
 				$positionTwoTurnoverPoint = "J";
                 break;
 			case "V":
-				$positionTwoArray = $rotorFiveArray;
+				$positionTwoRotor = $rotorFiveArray;
 				$positionTwoTurnoverPoint = "Z";
                 break;
 			default:
@@ -84,28 +86,34 @@
 
         switch ($rotorPositionThree) {
 			case "I":
-				$positionThreeArray = $rotorOneArray;
+				$positionThreeRotor = $rotorOneArray;
 				$positionThreeTurnoverPoint = "Q";
                 break;
 			case "II":
-				$positionThreeArray = $rotorTwoArray;
+				$positionThreeRotor = $rotorTwoArray;
 				$positionThreeTurnoverPoint = "E";
                 break;
 			case "III":
-				$positionThreeArray = $rotorThreeArray;
+				$positionThreeRotor = $rotorThreeArray;
 				$positionThreeTurnoverPoint = "V";
                 break;
 			case "IV":
-				$positionThreeArray = $rotorFourArray;
+				$positionThreeRotor = $rotorFourArray;
 				$positionThreeTurnoverPoint = "J";
                 break;
 			case "V":
-				$positionThreeArray = $rotorFiveArray;
+				$positionThreeRotor = $rotorFiveArray;
 				$positionThreeTurnoverPoint = "Z";
                 break;
 			default:
 				echo "Error: rotor one switch";
 				$positionThreeTurnoverPoint = null;
 		}
+
+        $rotorOne = new Rotor($positionOneRotor, $positionOneTurnoverPoint);
+        $rotorTwo = new Rotor($positionTwoRotor, $positionTwoTurnoverPoint);
+        $rotorThree = new Rotor($positionThreeRotor, $positionThreeTurnoverPoint);
+
+        
     }
 ?>
