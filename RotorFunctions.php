@@ -24,24 +24,44 @@
     }
 
     function traverseRotors($letterMessage, $rotorsObject) {
-        $rotorOneArray = $rotorsObject->getRotorOne();
-        $rotorTwoArray = $rotorsObject->getRotortwo();
-        $rotorThreeArray = $rotorsObject->getRotorThree();
-        $reflectorArray = $rotorsObject->getReflector();
+        $rotorOne = $rotorsObject->getRotorOne();
+        $rotorTwo = $rotorsObject->getRotortwo();
+        $rotorThree = $rotorsObject->getRotorThree();
+        $reflector = $rotorsObject->getReflector();
 
         $rotorOneTurnoverPoint = $rotorsObject->getRotorOneTurnoverPoint();
         $rotorTwoTurnoverPoint = $rotorsObject->getRotorTwoTurnoverPoint();
 
-        rotateRotor($rotorOneArray);
-        $rotorOneCurrentTurnoverPoint = $rotorOneArray[0][25];
+        rotateRotor($rotorOne);
+        $rotorOneCurrentTurnoverPoint = $rotorOne[0][25];
 
         if ($rotorOneTurnoverPoint == $rotorOneCurrentTurnoverPoint) {
-            rotateRotor($rotorTwoArray);
-            $rotorTwoCurrentTurnoverPoint = $rotorTwoArray[0][25];
+            rotateRotor($rotorTwo);
+            $rotorTwoCurrentTurnoverPoint = $rotorTwo[0][25];
 
             if ($rotorTwoTurnoverPoint == $rotorTwoCurrentTurnoverPoint) {
-                rotateRotor($rotorTwoArray);
+                rotateRotor($rotorThree);
             }
         }
+
+        $letNum = indexOf($reflector, $letterMessage, 0);
+
+        $resultOne = $rotorOne[1][$letNum];
+        $resultTwo = $rotorTwo[1][indexOf($rotorOne, $resultOne, 0)];
+        $resultThree = $rotorThree[1][indexOf($rotorTwo, $resultTwo, 0)];
+
+        $reflectorLetter = $reflector[1][indexOf($rotorThree, $resultThree, 0)];
+
+        $resultThree = $rotorThree[0][indexOf($reflector, $reflectorLetter, 0)];
+        $resultThree = $rotorThree[0][indexOf($rotorThree, $resultThree, 1)];
+
+        $resultTwo = $rotorTwo[0][indexOf($rotorThree, $resultThree, 0)];
+        $resultTwo = $rotorTwo[0][indexOf($rotorTwo, $resultTwo, 1)];
+
+        $resultOne = $rotorOne[0][indexOf($rotorTwo, $resultTwo, 0)];
+        $resultOne = $rotorOne[0][indexOf($rotorOne, $resultOne, 1)];
+
+        $finalResult = $reflector[0][indexOf($rotorOne, $resultOne, 0)];
+        return $finalResult;
     }
 ?>
