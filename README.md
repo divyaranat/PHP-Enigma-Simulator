@@ -30,6 +30,7 @@ After rotor selection is complete, a menu will display giving you five options:
 * 'D' - To decrypt a message.
 * 'S' - To manually set rotor positions.
 * 'R' - To reset rotors to default positions.
+* 'Q' - To quit the program.
 
 ### Encrypting
 1. To begin encrypting a new message, type in 'N' and press enter.
