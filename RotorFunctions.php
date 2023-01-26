@@ -1,67 +1,61 @@
 <?php
-    require "Rotor.php";
-    require "Rotors.php";
+    require_once "Rotor.php";
+    require_once "Reflector.php";
 
-    function rotateRotor($rotorArray) {
-        $tempIndexHolderZero = $rotorArray[0][0];
-        $tempIndexHolderOne = $rotorArray[0][1];
+    function traverseRotors($letterMessage, $rotorOneObject, $rotorTwoObject, $rotorThreeObject, $reflectorObject) {
+        $rotorOneTurnoverPoint = $rotorOneObject->getTurnoverPoint();
+        $rotorTwoTurnoverPoint = $rotorTwoObject->getTurnoverPoint();
 
-        for ($i = 0; $i < 25; $i++) {
-            $rotorArray[0][$i] = $rotorArray[0][$i + 1];
-            $rotorArray[1][$i] = $rotorArray[1][$i + 1];
-        }
-
-        $rotorArray[0][25] = $tempIndexHolderZero;
-        $rotorArray[1][25] = $tempIndexHolderOne;
-    }
-
-    function indexOf($rotorArray, $result, $arraySelect) {
-        for ($i = 0; $i <= 25; $i++) {
-            if ($rotorArray[$arraySelect][$i] == $result) {
-                return $i;
-            }
-        }
-    }
-
-    function traverseRotors($letterMessage, $rotorsObject) {
-        $rotorOne = $rotorsObject->getRotorOne();
-        $rotorTwo = $rotorsObject->getRotortwo();
-        $rotorThree = $rotorsObject->getRotorThree();
-        $reflector = $rotorsObject->getReflector();
-
-        $rotorOneTurnoverPoint = $rotorsObject->getRotorOneTurnoverPoint();
-        $rotorTwoTurnoverPoint = $rotorsObject->getRotorTwoTurnoverPoint();
-
-        rotateRotor($rotorOne);
-        $rotorOneCurrentTurnoverPoint = $rotorOne[0][25];
+        $rotorOneObject->rotateRotor();
+        $rotorOneCurrentTurnoverPoint = $rotorOneObject->getCurrentElementAtTurnover();
 
         if ($rotorOneTurnoverPoint == $rotorOneCurrentTurnoverPoint) {
-            rotateRotor($rotorTwo);
-            $rotorTwoCurrentTurnoverPoint = $rotorTwo[0][25];
+            $rotorTwoObject->rotateRotor();
+            $rotorTwoCurrentTurnoverPoint = $rotorTwoObject->getCurrentElementAtTurnover();
 
             if ($rotorTwoTurnoverPoint == $rotorTwoCurrentTurnoverPoint) {
-                rotateRotor($rotorThree);
+                $rotorThreeObject->rotateRotor();
             }
         }
 
-        $letNum = indexOf($reflector, $letterMessage, 0);
+        $letNum = $reflectorObject->indexOf($letterMessage, 0);
 
-        $resultOne = $rotorOne[1][$letNum];
-        $resultTwo = $rotorTwo[1][indexOf($rotorOne, $resultOne, 0)];
-        $resultThree = $rotorThree[1][indexOf($rotorTwo, $resultTwo, 0)];
+        $resultOne = $rotorOneObject->getElement(1, $letNum);
 
-        $reflectorLetter = $reflector[1][indexOf($rotorThree, $resultThree, 0)];
+        $resultTwo = $rotorTwoObject->getElement(1, $rotorOneObject->indexOf($resultOne, 0));
 
-        $resultThree = $rotorThree[0][indexOf($reflector, $reflectorLetter, 0)];
-        $resultThree = $rotorThree[0][indexOf($rotorThree, $resultThree, 1)];
+        $resultThree = $rotorThreeObject->getElement(1, $rotorTwoObject->indexOf($resultTwo, 0));
 
-        $resultTwo = $rotorTwo[0][indexOf($rotorThree, $resultThree, 0)];
-        $resultTwo = $rotorTwo[0][indexOf($rotorTwo, $resultTwo, 1)];
+        $reflectorLetter = $reflectorObject->getElement(1, $rotorThreeObject->indexOf($resultThree, 0));
 
-        $resultOne = $rotorOne[0][indexOf($rotorTwo, $resultTwo, 0)];
-        $resultOne = $rotorOne[0][indexOf($rotorOne, $resultOne, 1)];
+        $resultThree = $rotorThreeObject->getElement(0, $reflectorObject->indexOf($reflectorLetter, 0));
+        $resultThree = $rotorThreeObject->getElement(0, $rotorThreeObject->indexOf($resultThree, 1));
 
-        $finalResult = $reflector[0][indexOf($rotorOne, $resultOne, 0)];
+        $resultTwo = $rotorTwoObject->getElement(0, $rotorThreeObject->indexOf($resultThree, 0));
+        $resultTwo = $rotorTwoObject->getElement(0, $rotorTwoObject->indexOf($resultTwo, 1));
+
+        $resultOne = $rotorOneObject->getElement(0, $rotorTwoObject->indexOf($resultTwo, 0));
+        $resultOne = $rotorOneObject->getElement(0, $rotorOneObject->indexOf($resultOne, 1));
+
+        $finalResult = $reflectorObject->getElement(0, $rotorOneObject->indexOf($resultOne, 0));
         return $finalResult;
+    }
+
+    function getRotorPositions($rotorOneObject, $rotorTwoObject, $rotorThreeObject) {
+        return $rotorOneObject->getElement(0, 0) . " " . $rotorTwoObject->getElement(0, 0) . " " . $rotorThreeObject->getElement(0 ,0);
+    }
+
+    function setRotorPositions($rotorOnePosition, $rotorTwoPosition, $rotorThreePosition, &$rotorObjects) {
+        while ($rotorOnePosition != $rotorObjects[0]->getElement(0, 0)) {
+            $rotorObjects[0]->rotateRotor();
+        }
+
+        while ($rotorTwoPosition != $rotorObjects[1]->getElement(0, 0)) {
+            $rotorObjects[1]->rotateRotor();
+        }
+
+        while ($rotorThreePosition != $rotorObjects[2]->getElement(0, 0)) {
+            $rotorObjects[2]->rotateRotor();
+        }
     }
 ?>

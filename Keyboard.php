@@ -1,9 +1,9 @@
 <?php
-    require "RotorSettings.php";
+    require_once "RotorFunctions.php";
 
-    function rotorSelectionPrompt(){
-        echo "Pick 3 rotors to use in simulator.";
-        echo "Options: I II III IV V";
+    function &rotorSelectionPrompt(){
+        echo "Pick 3 rotors to use in simulator.\n";
+        echo "Options: I II III IV V\n";
 
         $rotorPositionOne = strtoupper(readline("First rotor: "));
 
@@ -11,7 +11,7 @@
             $continueLoop = false;
             $rotorPositionTwo = strtoupper(readline("Second rotor: "));
             if (strcmp($rotorPositionOne, $rotorPositionTwo) == 0) {
-                echo "Rotor " . $rotorPositionTwo . " has already been selected. Please choose a different rotor.";
+                echo "Rotor " . $rotorPositionTwo . " has already been selected. Please choose a different rotor.\n";
                 $continueLoop = true;
             }
         } while ($continueLoop);
@@ -20,14 +20,16 @@
             $continueLoop = false;
             $rotorPositionThree = strtoupper(readline("Third rotor: "));
             if (strcmp($rotorPositionOne, $rotorPositionThree) == 0 || strcmp($rotorPositionTwo, $rotorPositionThree) == 0) {
-                echo "Rotor " . $rotorPositionThree . " has already been selected. Please choose a different rotor.";
+                echo "Rotor " . $rotorPositionThree . " has already been selected. Please choose a different rotor.\n";
                 $continueLoop = true;
             }
         } while ($continueLoop);
 
-        echo "Rotor selection complete\n\n";
+        echo "Rotor selection complete.\n\n";
 
-       rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree);
+        require "RotorSettings.php";
+        $rotorObjects = &rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree);
+        return $rotorObjects;
     }
 
     function messageInput() {
@@ -46,18 +48,41 @@
                 }
             }
         } while ($continueLoop);
+
         echo "\n";
+        return $spacelessMessage;
     } 
 
-    function encryptionInfo() {
-
+    function encryptionInfo(&$rotorObjects) {
+        echo "Initial rotor settings: " . getRotorPositions($rotorObjects[0], $rotorObjects[1], $rotorObjects[2]) . "\n";
+        echo "Encrypted message: ";
     }
 
-    function launchToRotor() {
-
+    function decryptionInfo() {
+        echo "Decrypted message: ";
     }
 
-    function selectRotorPositions() {
+    function launchToRotor($message, &$rotorObjects) {
+        $rotorOneObject = $rotorObjects[0];
+        $rotorTwoObject = $rotorObjects[1];
+        $rotorThreeObject = $rotorObjects[2];
+        $reflectorObject = $rotorObjects[3];
 
+        foreach (str_split($message) as $letterMessage) {
+            echo traverseRotors($letterMessage, $rotorOneObject, $rotorTwoObject, $rotorThreeObject, $reflectorObject);
+        }
+        echo "\n\n";
+    }
+
+    function selectRotorPositions(&$rotorObjects) {
+        echo "Input rotor settings.\n";
+        $rotorOnePosition = strtoupper(readline("Rotor One: "));
+        $rotorTwoPosition = strtoupper(readline("Rotor Two: "));
+        $rotorThreePosition = strtoupper(readline("Rotor Three: "));
+        setRotorPositions($rotorOnePosition, $rotorTwoPosition, $rotorThreePosition, $rotorObjects);
+    }
+
+    function resetRotorPositions(&$rotorObjects) {
+        setRotorPositions("A", "A", "A", $rotorObjects);
     }
 ?>

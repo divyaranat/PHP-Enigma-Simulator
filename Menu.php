@@ -1,7 +1,9 @@
 <?php
-    require "Keyboard.php";
+    require_once "Keyboard.php";
+    
+    echo "\n---ENIGMA EMULATOR---\n\n";
+    $rotorObjects = &rotorSelectionPrompt();
 
-    $menuSelection = null;
     $continueLoop = true;
     do {
         echo "-MENU-\n";
@@ -14,17 +16,30 @@
 
         switch ($menuSelection) {
             case "N":
-                echo "---Encryption---\n";
-                messageInput();
+                echo "\n---Encryption---\n";
+                $message = messageInput();
+                encryptionInfo($rotorObjects);
+                launchToRotor($message, $rotorObjects);
                 break;
             case "D":
+                echo "\n---Decryption---\n";
+                selectRotorPositions($rotorObjects);
+                $message = messageInput();
+                decryptionInfo();
+                launchToRotor($message, $rotorObjects);
                 break;
             case "S":
+                echo "\n---Set Rotor Positions---\n";
+                selectRotorPositions($rotorObjects);
+                echo "\n";
                 break;
             case "R":
+                resetRotorPositions($rotorObjects);
+                echo "\nRotors have been reset.\n\n";
                 break;
             case "Q":
                 $continueLoop = false;
+                echo "\nGood-Bye!\n\n";
                 break;
             default:
                 echo "Invalid entry. Please try again.";

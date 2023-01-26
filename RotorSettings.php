@@ -1,7 +1,5 @@
 <?php
-    require "Rotor.php";
-
-    function rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree) {
+    function &rotorSelection($rotorPositionOne, $rotorPositionTwo, $rotorPositionThree) {
         $rotorOneArray = array (
             array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),
             array ("E","K","M","F","L","G","D","Q","V","Z","N","T","O","W","Y","H","X","U","S","P","A","I","B","R","C","J")
@@ -25,11 +23,6 @@
         $rotorFiveArray = array (
             array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),
             array ("V","Z","B","R","G","I","T","Y","U","P","S","D","N","H","L","X","A","W","M","J","Q","O","F","E","C","K")
-        );
-
-        $refelectorArray = array (
-            array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"),
-            array ("Y","R","U","H","Q","S","L","D","P","X","N","G","O","K","M","I","E","B","F","Z","C","W","V","J","A","T")
         );
 
         switch ($rotorPositionOne) {
@@ -110,10 +103,14 @@
 				$positionThreeTurnoverPoint = null;
 		}
 
-        $rotorOne = new Rotor($positionOneRotor, $positionOneTurnoverPoint);
-        $rotorTwo = new Rotor($positionTwoRotor, $positionTwoTurnoverPoint);
-        $rotorThree = new Rotor($positionThreeRotor, $positionThreeTurnoverPoint);
+        require_once "Rotor.php";
+        $rotorOneObject = new Rotor($positionOneRotor, $positionOneTurnoverPoint);
+        $rotorTwoObject = new Rotor($positionTwoRotor, $positionTwoTurnoverPoint);
+        $rotorThreeObject = new Rotor($positionThreeRotor, $positionThreeTurnoverPoint);
 
-        
+        require_once "Reflector.php";
+        $reflectorObject = new ReflectorOne();
+
+        $rotorObjectArray = array($rotorOneObject, $rotorTwoObject, $rotorThreeObject, $reflectorObject);
+        return $rotorObjectArray;
     }
-?>
